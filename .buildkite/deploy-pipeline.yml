@@ -13,6 +13,7 @@ steps:
           env:
             - BUILD_CACHE_URL="http://gradle-cache.paylater-tools.net/cache/"
     <<: *gh-agents
+  - wait
   - label: ":pipeline: pipeline upload"
     type: "script"
     command: "python .buildkite/deploy-now-pipeline/utils/generate_app_deploy_pipeline.py | buildkite-agent pipeline upload"

@@ -133,6 +133,7 @@ def generate_env_deploys(auto_deploy_list, envs, terraform_config, run_flyway):
                 concurrency_group,
                 'paylater-' + account_name + '-deploy-ci'
             ))
+            steps.append('wait')
 
     # Remove last Confirm
     steps.pop()
