@@ -49,7 +49,7 @@ plan_time="false"
 # Run preview plan only
 if [[ "$auto_deploy" == "plan" ]]; then
   echo "+++ :terraform: plan app version $TF_VAR_application_version for environment $env"
-  sh infrastructure/terraform/$terraform_config/deploy/plan.sh --env=$env --version=$TF_VAR_application_version
+  sh ecs-service-public/deploy/plan.sh --env=$env --version=$TF_VAR_application_version
   plan_time=`date +%s`
 fi
 
@@ -71,6 +71,6 @@ if [[ "$auto_deploy" == "true" || "$auto_deploy" == "apply" ]]; then
   fi
 
   echo "+++ :terraform: plan and apply app version $TF_VAR_application_version for environment $env"
-  sh infrastructure/terraform/$terraform_config/deploy/plan.sh --env=$env --version=$TF_VAR_application_version
-  sh infrastructure/terraform/$terraform_config/deploy/apply.sh --env=$env
+  sh ecs-service-public/deploy/plan.sh --env=$env --version=$TF_VAR_application_version
+  sh ecs-service-public/deploy/apply.sh --env=$env
 fi
