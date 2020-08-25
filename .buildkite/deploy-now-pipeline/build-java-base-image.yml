@@ -1,0 +1,5 @@
+steps:
+  - command: "cd service-blueprinter/COMMON-java-base-image; sh build.sh"
+    label: "Build-Java-Base-Image"
+    agents:
+      queue: "paylater-alpha-deploy-ci"

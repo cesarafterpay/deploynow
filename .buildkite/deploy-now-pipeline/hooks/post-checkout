@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -euo pipefail
+
+echo '--- :house_with_garden: Setting up the environment'
+
+if [[ "${BUILDKITE_BRANCH}" == "master" ]] ; then
+    BUILD_VERSION="1.0.${BUILDKITE_BUILD_NUMBER}"
+else
+    BUILD_VERSION="1.0.${BUILDKITE_BRANCH}"
+fi
+
+export BUILD_VERSION

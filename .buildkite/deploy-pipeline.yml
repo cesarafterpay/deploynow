@@ -1,0 +1,26 @@
+
+gh-agents: &gh-agents
+  agent_query_rules:
+    - "queue=paylater-alpha-deploy-ci"
+steps:  
+  - label: ":gradle: build, test and publish"
+    commands:
+      - .buildkite/deploy-now-pipeline/utils/build_test_publish.sh
+    plugins:
+      - docker-compose#v3.2.0:
+          config: .buildkite/docker-compose-build.ci.yml
+          run: java-build
+          env:
+            - BUILD_CACHE_URL="http://gradle-cache.paylater-tools.net/cache/"
+    <<: *gh-agents
+  - label: ":pipeline: pipeline upload"
+    type: "script"
+    command: "python .buildkite/deploy-now-pipeline/utils/generate_app_deploy_pipeline.py | buildkite-agent pipeline upload"
+    env:
+      environmnet_list: "dev,qa"
+      terraform_config: "testdeploynow"
+      repo: "paylater/testdeploynow"
+      new_version: ${BUILD_VERSION} # remove to show a select version step. Otherwise it would use the version defined at the post-checkout hook.
+    <<: *gh-agents
+    concurrency: 1
+    concurrency_group: "/testdeploynow/deploy/${BUILDKITE_BRANCH}"

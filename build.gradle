@@ -1,0 +1,54 @@
+plugins {
+	id 'org.springframework.boot' version '2.3.3.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+	id "com.google.cloud.tools.jib" version "2.5.0"
+	id 'java'
+}
+
+group = 'com.example'
+version = System.getenv("BUILD_VERSION") ?: "${new Date().format("yyyyMMdd")}.0.SNAPSHOT"
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-jersey'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+}
+
+test {
+	useJUnitPlatform()
+}
+
+project.ext {
+    isCiServer = System.getenv().containsKey("BUILDKITE")
+    jibCredHelper = project.ext.isCiServer ? "${rootDir}/.buildkite/deploy-now-pipeline/utils/docker-credential-ecr-login" : "ecr-login"
+}
+
+
+jib {
+    from {
+        image = '361053881171.dkr.ecr.ap-southeast-2.amazonaws.com/paylater/java/base:latest'
+        credHelper = project.ext.jibCredHelper
+    }
+
+    to {
+        image = '361053881171.dkr.ecr.ap-southeast-2.amazonaws.com/paylater/testdeploynow'
+        credHelper = project.ext.jibCredHelper
+        tags = ["${project.version}".toString(), System.getenv("BUILDKITE_COMMIT")]
+    }
+
+    container {
+        creationTime = "USE_CURRENT_TIMESTAMP"
+        jvmFlags = ['-XX:MaxRAMPercentage=85.0', '-javaagent:/usr/local/newrelic/newrelic.jar']
+        ports = []
+    }
+
+    extraDirectories.paths = ['src/main/resources']
+}
+
