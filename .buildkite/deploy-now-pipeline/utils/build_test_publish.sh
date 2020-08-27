@@ -2,7 +2,7 @@
 
 PUBLISH_TASKS=""
 
-if [[ "${BUILDKITE_BRANCH}" == "master" ]] ; then
+if [[ "${BUILDKITE_BRANCH}" != "master" ]] ; then
     PUBLISH_TASKS="jib"
 fi
 
