@@ -12,6 +12,7 @@ steps:
           run: java-build
           env:
             - BUILD_CACHE_URL="http://gradle-cache.paylater-tools.net/cache/"
+            - BUILDKITE_BRANCH=${BUILDKITE_BRANCH}
     <<: *gh-agents
   - wait
   - label: ":pipeline: pipeline upload"
