@@ -1,9 +1,8 @@
 module "testdeploynow" {
   source = "git@github.com:AfterpayTouch/afterpay-terraform-modules.git//ecs-service-public"
   application_name = "testdeploynow"
-  #image_ecr = "paylater/testdeploynow"
-  image_ecr = "paylater/deploynow/demoapp"
-  image_version = var.image_version
+  image_ecr = "paylater/testdeploynow"
+  image_version = var.application_version
   terraform_configuration = "testdeploynow"
   account_id = var.account_id
   state_bucket = var.state_bucket

@@ -11,7 +11,7 @@ variable "application_vars" {
   ]
 }
 
-variable "image_version" {
+variable "application_version" {
   default = "latest"
 }
 
