@@ -45,7 +45,7 @@ jib {
 
     container {
         creationTime = "USE_CURRENT_TIMESTAMP"
-        jvmFlags = ['-XX:MaxRAMPercentage=85.0', '-javaagent:/usr/local/newrelic/newrelic.jar']
+        jvmFlags = ['-XX:MaxRAMPercentage=85.0', '-javaagent:/opt/touch/newrelic/newrelic.jar']
         ports = []
     }
 
