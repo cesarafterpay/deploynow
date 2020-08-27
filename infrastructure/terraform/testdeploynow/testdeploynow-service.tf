@@ -9,7 +9,7 @@ module "testdeploynow" {
 
   application_vars = var.application_vars
   container_port = "80"
-  health_check_path = "/health"
+  health_check_path = "health"
 
   task_min_count = "1"
   task_max_count = "1"
