@@ -18,6 +18,8 @@ steps:
   - label: ":pipeline: pipeline upload"
     type: "script"
     command: "python .buildkite/deploy-now-pipeline/utils/generate_app_deploy_pipeline.py | buildkite-agent pipeline upload"
+    if: |
+      build.branch == 'master'
     env:
       environmnet_list: "dev,qa"
       terraform_config: "testdeploynow"
